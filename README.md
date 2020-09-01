@@ -8,3 +8,7 @@
 # Running projects:
 - Server: `npm start`
 - Client: `npm start`
+
+# Acessing projects:
+- Server: "http://localhost:5000/";
+- Client: "http://localhost:3000/";
