@@ -4,3 +4,7 @@
 - React.js;
 - Node.js;
 - Socket.js;
+
+# Running projects:
+- Server: `npm start`
+- Client: `npm start`
