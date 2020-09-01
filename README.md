@@ -12,3 +12,6 @@
 # Acessing projects:
 - Server: "http://localhost:5000/";
 - Client: "http://localhost:3000/";
+
+# Documentation:
+- Socket.io: "https://socket.io/get-started/chat";
