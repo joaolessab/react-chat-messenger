@@ -13,8 +13,10 @@ const io = socketio(server);
 
 // Integration = Run when the client connects via frontend
 io.on('connection', (socket) => {
+    /* Triggers when somebody access the endpoint */
     console.log('We have a new connection!');
 
+    /* Triggers when somebody leaves the page or connection */
     socket.on('disconnect', () => {
         console.log('User have left!');
     });
