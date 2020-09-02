@@ -14,7 +14,6 @@ const Chat = ({ location }) => {
     // Alternativa Hook for ComponentDidMount and ComponentUnmont 
     useEffect(() => {
         const { name, room } = queryString.parse(location.search);
-        console.log(name, room);
 
         {/* Triggers the socket io client using our endpoint which our socket io server is running */}
         socket = io(ENDPOINT);
@@ -22,8 +21,12 @@ const Chat = ({ location }) => {
         setName(name);
         setRoom(room);
 
-        console.log(socket);
-    });
+        { /* Triggerring a function on the server side */ }
+        socket.emit('join', { name, room }, ({ error }) => {
+            alert(error);
+        });
+
+    }, [ENDPOINT, location.search]); { /* According to hooks, only if these two parameters change, then it will trigger the server */ }
     
 
     return (

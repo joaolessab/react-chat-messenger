@@ -16,6 +16,16 @@ io.on('connection', (socket) => {
     /* Triggers when somebody access the endpoint */
     console.log('We have a new connection!');
 
+    socket.on('join', ({name, room}, callback) => {
+        console.log(name, room);
+
+        const error = true;
+        
+        if (error){        
+            callback({error: 'error'});
+        }
+    });
+
     /* Triggers when somebody leaves the page or connection */
     socket.on('disconnect', () => {
         console.log('User have left!');
