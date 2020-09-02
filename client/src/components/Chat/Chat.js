@@ -22,9 +22,14 @@ const Chat = ({ location }) => {
         setRoom(room);
 
         { /* Triggerring a function on the server side */ }
-        socket.emit('join', { name, room }, ({ error }) => {
-            alert(error);
+        socket.emit('join', { name, room }, () => {
+            // Callback ready to use
         });
+
+        return () => {
+            socket.emit('disconnect');
+            socket.off();
+        };
 
     }, [ENDPOINT, location.search]); { /* According to hooks, only if these two parameters change, then it will trigger the server */ }
     

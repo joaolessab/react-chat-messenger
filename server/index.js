@@ -18,12 +18,6 @@ io.on('connection', (socket) => {
 
     socket.on('join', ({name, room}, callback) => {
         console.log(name, room);
-
-        const error = true;
-        
-        if (error){        
-            callback({error: 'error'});
-        }
     });
 
     /* Triggers when somebody leaves the page or connection */
