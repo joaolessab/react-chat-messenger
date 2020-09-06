@@ -18,8 +18,9 @@ const io = socketio(server);
 io.on('connection', (socket) => {
     /* Triggers when somebody access the endpoint */
     //console.log('We have a new connection!');
+    // Hook for frontend
     socket.on('join', ({name, room}, callback) => {
-        const { error, user } = addUser({id: socket.id, name: room});
+        const { error, user } = addUser({id: socket.id, name, room});
 
         if (error) return callback(error);
 
@@ -27,7 +28,7 @@ io.on('connection', (socket) => {
         socket.emit('message', { user: 'admin', text: `${user.name}, welcome to the room ${user.room}`});
 
         //Send a message to all the users, not only the specified
-        socket.broadcast.to(uesr.room).emit('message', { user: 'admin', text: `${user.name}, has joined!` });
+        socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
         
         // Built-in method
         socket.join(user.room);
@@ -35,6 +36,7 @@ io.on('connection', (socket) => {
         callback();
     });
 
+    // Hook for frontend
     socket.on('sendMessage', (message, callback) => {
         const user = getUser(socket.io);
 

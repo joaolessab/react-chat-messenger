@@ -8,7 +8,10 @@ let socket;
 
 const Chat = ({ location }) => {
     const [name, setName] = useState('');
-    const [room, setRoom] = useState('');
+    const [room, setRoom] = useState('');    
+    const [message, setMessage] = useState('');
+    const [messages, setMessages] = useState([]);
+
     const ENDPOINT = 'localhost:5000';
 
     // Alternativa Hook for ComponentDidMount and ComponentUnmont 
@@ -33,9 +36,34 @@ const Chat = ({ location }) => {
 
     }, [ENDPOINT, location.search]); { /* According to hooks, only if these two parameters change, then it will trigger the server */ }
     
+    useEffect(() => {
+        socket.on('message', (message) => {
+            setMessages([...messages, message]); // Shortchurt command to add message to the messages array
+        });
+    }, [messages]); // Only when messages are sent
+
+    // Function for sending messages
+    const sendMessage = (event) => {
+        event.preventDefault();
+
+        // Send message and clean input
+        if (message){
+            socket.emit('sendMessage', message, () => setMessage(''));
+        }
+    };
+
+    console.log(message, messages);
 
     return (
-        <h1>Chat</h1>
+        <div className="outerContainer">
+            <div className="container">
+                <input 
+                    value={message} 
+                    onChange={(event) => setMessage(event.target.value)} 
+                    onKeyPress = {event => event.key === 'Enter' ? sendMessage(event) : null }
+                />
+            </div>
+        </div>
     )
 };
 
