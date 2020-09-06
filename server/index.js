@@ -2,6 +2,9 @@ const express = require('express');
 const socketio = require('socket.io');
 const http = require('http');
 
+// Calling User File that has all the functions we want to use
+const { addUser, removeUser, getUser, getUsersInRoom } = require ('./users.js');
+
 const PORT = process.env.PORT || 5000;
 
 const router = require('./router');
@@ -14,10 +17,22 @@ const io = socketio(server);
 // Integration = Run when the client connects via frontend
 io.on('connection', (socket) => {
     /* Triggers when somebody access the endpoint */
-    console.log('We have a new connection!');
-
+    //console.log('We have a new connection!');
     socket.on('join', ({name, room}, callback) => {
-        console.log(name, room);
+        const { error, user } = addUser({id: socket.id, name: room});
+
+        if (error) return callback(error);
+
+        //Send a message only for the user selected
+        socket.emit('message', { user: 'admin', text: `${user.name}, welcome to the room ${user.room}`});
+
+        //Send a message to all the users, not only the specified
+        socket.broadcast.to(uesr.room).emit('message', { user: 'admin', text: `${user.name}, has joined!` });
+        
+        // Built-in method
+        socket.join(user.room);
+
+        callback();
     });
 
     /* Triggers when somebody leaves the page or connection */
