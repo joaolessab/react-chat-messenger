@@ -25,7 +25,7 @@ io.on('connection', (socket) => {
         if (error) return callback(error);
 
         //Send a message only for the user selected
-        socket.emit('message', { user: 'admin', text: `${user.name}, welcome to the room ${user.room}`});
+        socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`});
 
         //Send a message to all the users, not only the specified
         socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
@@ -38,10 +38,10 @@ io.on('connection', (socket) => {
 
     // Hook for frontend
     socket.on('sendMessage', (message, callback) => {
-        const user = getUser(socket.io);
-
-        io.to(user.room).emit('message', {user: user.name, text: message});
-        
+        const user = getUser(socket.id);
+    
+        io.to(user.room).emit('message', { user: user.name, text: message });
+    
         callback();
     });
 
