@@ -5,7 +5,7 @@
 
 .input {
 	border: none;
-	border-radius: 0;
+	border-radius: 5px;
 	padding: 5%;
 	width: 80%;
 	font-size: 1.2em;
@@ -19,11 +19,12 @@ select:focus {
 
 .sendButton {
 	color: #fff !important;
-	text-transform: uppercase;
-	text-decoration: none;
-	background: #2979FF;
-	padding: 20px;
-	display: inline-block;
-	border: none;
-	width: 20%;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: #ff6918;
+    padding: 20px;
+    display: inline-block;
+    border: none;
+    width: 20%;
+    border-radius: 0 0 5px;
 }
