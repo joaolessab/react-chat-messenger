@@ -18,7 +18,8 @@ const Chat = ({ location }) => {
     const [messages, setMessages] = useState([]);
 
     //const ENDPOINT = 'localhost:5000';
-    const ENDPOINT = 'https://project-chat-application.herokuapp.com/';
+    //const ENDPOINT = 'https://project-chat-application.herokuapp.com/';
+    const ENDPOINT = 'https://react-chat-messenger-cognite.herokuapp.com/';
 
     // Alternativa Hook for ComponentDidMount and ComponentUnmont 
     useEffect(() => {
