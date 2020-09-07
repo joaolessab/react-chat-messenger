@@ -1,64 +1,51 @@
+const http = require('http');
 const express = require('express');
 const socketio = require('socket.io');
-const http = require('http');
 const cors = require('cors');
 
-// Calling User File that has all the functions we want to use
-const { addUser, removeUser, getUser, getUsersInRoom } = require ('./users.js');
-
-const PORT = process.env.PORT || 5000;
+const { addUser, removeUser, getUser, getUsersInRoom } = require('./users');
 
 const router = require('./router');
-const { info } = require('console');
 
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
 
-// Integration = Run when the client connects via frontend
-io.on('connection', (socket) => {
-    /* Triggers when somebody access the endpoint */
-    //console.log('We have a new connection!');
-    // Hook for frontend
-    socket.on('join', ({name, room}, callback) => {
-        const { error, user } = addUser({id: socket.id, name, room});
+app.use(cors());
+app.use(router);
 
-        if (error) return callback(error);
+io.on('connect', (socket) => {
+  socket.on('join', ({ name, room }, callback) => {
+    const { error, user } = addUser({ id: socket.id, name, room });
 
-        //Send a message only for the user selected
-        socket.emit('message', { user: 'admin', text: `${user.name}, welcome to the room ${user.room}.`});
+    if(error) return callback(error);
 
-        //Send a message to all the users, not only the specified
-        socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
-        
-        // Built-in method
-        socket.join(user.room);
+    socket.join(user.room);
 
-        io.to(user.room).emit('roomData', {room: user.room, users: getUsersInRoom(user.room)});
+    socket.emit('message', { user: 'admin', text: `${user.name}, welcome to room ${user.room}.`});
+    socket.broadcast.to(user.room).emit('message', { user: 'admin', text: `${user.name} has joined!` });
 
-        callback();
-    });
+    io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room) });
 
-    // Hook for frontend
-    socket.on('sendMessage', (message, callback) => {
-        const user = getUser(socket.id);
-    
-        io.to(user.room).emit('message', { user: user.name, text: message });
-        io.to(user.room).emit('roomData', { room: user.room, text: message });
-    
-        callback();
-    });
+    callback();
+  });
 
-    /* Triggers when somebody leaves the page or connection */
-    socket.on('disconnect', () => {
-        const user = removeUser(socket.id);        
-        if (user){
-            io.to(user.room).emit('message', {user: 'admin', text: `${user.name} has left!` });
-        }
-    });
+  socket.on('sendMessage', (message, callback) => {
+    const user = getUser(socket.id);
+
+    io.to(user.room).emit('message', { user: user.name, text: message });
+
+    callback();
+  });
+
+  socket.on('disconnect', () => {
+    const user = removeUser(socket.id);
+
+    if(user) {
+      io.to(user.room).emit('message', { user: 'Admin', text: `${user.name} has left.` });
+      io.to(user.room).emit('roomData', { room: user.room, users: getUsersInRoom(user.room)});
+    }
+  })
 });
 
-app.use(router);
-app.use(cors());
-
-server.listen(PORT, () => console.log(`Server has been started on port ${PORT}`));
+server.listen(process.env.PORT || 5000, () => console.log(`Server has started.`));
