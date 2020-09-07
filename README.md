@@ -70,4 +70,4 @@ http://localhost:3000/chat?name=vitor&room=cognite
 - `./build`;
 
 ## MY Production URL:
-https://5f559954989466689fb6e727--clever-fermi-fa0b4f.netlify.app/
+https://5f56504e1e2b2fde50b67558--clever-babbage-0b3d1b.netlify.app/
