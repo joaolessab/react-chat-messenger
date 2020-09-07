@@ -28,3 +28,9 @@
 
 ### Client:
 - Type: `npm run build`;
+
+## Execution Mode
+- Open 3 tabs and start to chat:
+http://localhost:3000/chat?name=bot&room=cognite
+http://localhost:3000/chat?name=joao&room=cognite
+http://localhost:3000/chat?name=vitor&room=cognite
