@@ -6,12 +6,14 @@ import './Chat.css';
 import InfoBar from '../InfoBar/InfoBar';
 import Input from '../Input/Input';
 import Messages from '../Messages/Messages';
+import TextContainer from '../TextContainer/TextContainer';
 
 let socket;
 
 const Chat = ({ location }) => {
     const [name, setName] = useState('');
-    const [room, setRoom] = useState('');    
+    const [room, setRoom] = useState('');
+    const [users, setUsers] = useState('');    
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
 
@@ -28,8 +30,10 @@ const Chat = ({ location }) => {
         setRoom(room);
 
         { /* Triggerring a function on the server side */ }
-        socket.emit('join', { name, room }, () => {
-            // Callback ready to use
+        socket.emit('join', { name, room }, (error) => {
+            if (error){
+                alert(error);
+            }
         });
 
         return () => {
@@ -42,8 +46,12 @@ const Chat = ({ location }) => {
     useEffect(() => {
         socket.on('message', (message) => {
             setMessages([...messages, message]); // Shortchurt command to add message to the messages array
+        });        
+    
+        socket.on("roomData", ({ users }) => {
+            setUsers(users);
         });
-    }, [messages]); // Only when messages are sent
+    }, []);
 
     // Function for sending messages
     const sendMessage = (event) => {
@@ -63,7 +71,8 @@ const Chat = ({ location }) => {
                 <InfoBar room = {room} />
                 <Messages messages = {messages} name={name}/>
                 <Input message={message} setMessage={setMessage} sendMessage={sendMessage} />
-            </div>
+            </div>    
+            <TextContainer users={users}/>
         </div>
     )
 };
