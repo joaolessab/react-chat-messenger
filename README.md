@@ -58,3 +58,17 @@ http://localhost:3000/chat?name=vitor&room=cognite
 
 ### Client:
 - Here, I have used Netlify for it: https://www.netlify.com/ and these steps;
+- Go to the Client folder and Install Nettlify CLI;
+- `npm install netlify-cli -g`;
+- Create Account;
+- Login;
+- Drag and Drop a folder (client) of React front-end to Create a new App;
+- `netlify login`;
+- Authorize it via Browser;
+- `npm run build` under the client folder;
+- `netlify deploy`;
+- Go next on the steps and when the CMD asks you the Directory to Publish:
+- `./build`;
+
+### MY URL:
+https://5f559954989466689fb6e727--clever-fermi-fa0b4f.netlify.app/
