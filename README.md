@@ -1,19 +1,18 @@
-### React Chat Messenger for Cognite
+# React Chat Messenger for Cognite
  
-# Technologies that is being used:
+## Technologies that are being used:
 - React.js;
 - Node.js;
 - Socket.js;
 
-# Acessing projects:
+## Acessing projects:
 - Server: "http://localhost:5000/";
 - Client: "http://localhost:3000/";
 
-# Documentation:
+## Documentation:
 - Socket.io: "https://socket.io/get-started/chat";
 
-# Runnin Project:
-## Development Mode:
+## Running Project as Developer Mode:
 ### Server:
 - Go to the server folder, open CMD and type `npm install` to install dependencies;
 - Type: `npm start`;
@@ -29,7 +28,7 @@
 ### Client:
 - Type: `npm run build`;
 
-## Execution Mode
+## Execution Mode on Localhost
 - Open 3 tabs and start to chat:
 http://localhost:3000/chat?name=bot&room=cognite
 http://localhost:3000/chat?name=joao&room=cognite
@@ -70,5 +69,5 @@ http://localhost:3000/chat?name=vitor&room=cognite
 - Go next on the steps and when the CMD asks you the Directory to Publish:
 - `./build`;
 
-### MY URL:
+## MY Production URL:
 https://5f559954989466689fb6e727--clever-fermi-fa0b4f.netlify.app/
